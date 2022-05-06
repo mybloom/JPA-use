@@ -52,4 +52,19 @@
 - @OneToMany(mappedBy = "order", cascade = CascadeType.ALL) 
 - []  cascade는 주인에게 해야 할까? 거울에게 해야할까?
 
+---
 
+## chap4 애플리케이션 구현 준비
+
+> 애플리케이션 아키텍쳐
+- 계층형 구조 사용
+  - controller, web : 웹계층
+  - service : 비즈니스 로직, 트랜잭션 처리
+  - repository : JPA를 직접 사용하는 계층, 엔티티 매니저 사용
+  - domain : 엔티티가 모여 있는 계층, 모든 계층에서 사용
+- 패키지 구조
+  - 컨트롤러에서 repository바로 접근 할 수 있는 구조로 갈 예정
+  - 방향은 단방향으로 
+- **개발순서**
+  - 웹 환경을 제외한 계층을 먼저 개발 : service, repository를 먼저 개발 후 test로 검증
+  - 웹, Controller는 그 다음 개발
