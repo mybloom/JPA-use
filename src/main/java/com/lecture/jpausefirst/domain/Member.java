@@ -27,6 +27,6 @@ public class Member {
 	@Embedded
 	private Address address;
 
-	@OneToMany(mappedBy = "member") //`orders테이블에 있는(?)` member 필드에 의해 매핑된 것
+	@OneToMany(mappedBy = "member") //`order 객체에 있는 member 필드에 의해 매핑된 것
 	private List<Order> orders = new ArrayList<>();
 }
