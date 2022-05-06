@@ -153,4 +153,13 @@ private MemberRepository memberRepository;
 
 - `데이터를 가지고 있는 쪽`에서 비지니스 메서드가 있는 것이 응집력이 좋다.
 - Item 클래스에 stockQuantity 속성을 가지고 있으므로 , 재고 늘리고/줄이는 비지니스 메서드를 Item 클래스에 생성한다.
-- 
+
+---
+
+## chap7 주문 도메인 개발
+
+> 구현 기능
+- 상품주문
+- 주문 내역 조회
+- 주문 취소
+
