@@ -213,6 +213,8 @@ orderRepository.save(order);
 > 동적쿼리
 - parameter값인 status, member이 없으면, `select o from Order o join o.member m`으로 쿼리가 동적으로 생성되어 모든 결과를 가져와야 한다.
 - JPA에서는 이런 동적쿼리를 어떻게 처리할까?
+
+1. 문자열로 동적쿼리 생성
 ```java
 return entityManager.createQuery("select o from Order o join o.member m "
 			+ "where o.status = :status "
@@ -266,5 +268,64 @@ public List<Order> findAll(OrderSearch orderSearch) {
 	}
 ```
 
+2. JPA Criteria - JPA 표준 지원 
+ - 사용하기 힘듦. 
+ - 치명적인 단점 : 무슨 쿼리가 생성될지 떠오르기 힘듦.
+
+```java
+public List<Order> findAllCriteria(OrderSearch orderSearch) {
+CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+Root<Order> order = criteriaQuery.from(Order.class); //시작하는 엔티티
+Join<Object, Object> member = order.join("member", JoinType.INNER);
+
+		List<Predicate> criteria = new ArrayList<>();
+
+		//주문상태 검색
+		if(orderSearch.getOrderStatus() != null ) {
+			Predicate status = criteriaBuilder.equal(order.get("status"),
+				orderSearch.getOrderStatus());
+			criteria.add(status);
+		}
+
+		//회원이름 검색
+		if(StringUtils.hasText((CharSequence) orderSearch.getMemberName()) ) {
+			Predicate name = criteriaBuilder.like(member.get("name"),
+				"%" + orderSearch.getMemberName() + "%");
+			criteria.add(name);
+		}
+
+		criteriaQuery.where(criteriaBuilder.and(criteria.toArray(new Predicate[criteria.size()])));
+		TypedQuery<Order> query = entityManager.createQuery(criteriaQuery)
+			.setMaxResults(1000);
+		return query.getResultList();
+	}public List<Order> findAllCriteria(OrderSearch orderSearch) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
+		Root<Order> order = criteriaQuery.from(Order.class); //시작하는 엔티티
+		Join<Object, Object> member = order.join("member", JoinType.INNER);
+
+		List<Predicate> criteria = new ArrayList<>();
+
+		//주문상태 검색
+		if(orderSearch.getOrderStatus() != null ) {
+			Predicate status = criteriaBuilder.equal(order.get("status"),
+				orderSearch.getOrderStatus());
+			criteria.add(status);
+		}
+
+		//회원이름 검색
+		if(StringUtils.hasText((CharSequence) orderSearch.getMemberName()) ) {
+			Predicate name = criteriaBuilder.like(member.get("name"),
+				"%" + orderSearch.getMemberName() + "%");
+			criteria.add(name);
+		}
+
+		criteriaQuery.where(criteriaBuilder.and(criteria.toArray(new Predicate[criteria.size()])));
+		TypedQuery<Order> query = entityManager.createQuery(criteriaQuery)
+			.setMaxResults(1000);
+		return query.getResultList();
+	}
+```
 
 
