@@ -67,11 +67,20 @@ class OrderServiceTest {
 	@Test
 	void 주문취소() {
 		//given
+		Member member = createMember();
+		Book book = createBook("JPA", 39000, 10);
+
+		int orderCount = 2;
+		Long orderId = orderService.order(member.getId(), book.getId(), orderCount);
 
 		//when
-
+		orderService.cancelOrder(orderId);
+		
 		//then
+		Order getOrder = orderRepository.findOne(orderId);
 
+		assertEquals(OrderStatus.CANCEL, getOrder.getStatus());
+		assertEquals(10, book.getStockQuantity());
 	}
 
 
