@@ -206,3 +206,65 @@ orderRepository.save(order);
 - 엔티티에 핵심 비지니스 로직이 있기 때문에 엔티티에 대해서 테스트를 작성할 수 있다. 
 - 그 비지니스 로직을 의미있게 테스트를 작성하는 것이 중요하다.
 
+### 주문 검색 기능 개발
+
+- 동적 쿼리 사용
+
+> 동적쿼리
+- parameter값인 status, member이 없으면, `select o from Order o join o.member m`으로 쿼리가 동적으로 생성되어 모든 결과를 가져와야 한다.
+- JPA에서는 이런 동적쿼리를 어떻게 처리할까?
+```java
+return entityManager.createQuery("select o from Order o join o.member m "
+			+ "where o.status = :status "
+			+ "and m.name like :name", Order.class)
+			.setParameter("status", orderSearch.getOrderStatus())
+			.setParameter("name", orderSearch.getMemberName())
+			.setMaxResults(1000) //최대 1000건
+			.getResultList();
+```
+
+- JPQL에서 동적쿼리를 생성하는 것은 문자로 처리해야 하기 때문에 번거롭고 에러 발생 확률이 높다.
+  - mybatis는 동적쿼리가 편리하게 된다.
+```java
+public List<Order> findAll(OrderSearch orderSearch) {
+		String jpql = "select o from Order o join o.member m";
+		boolean isFirstCondition = true;
+
+		//주문 상태 검색
+		if(orderSearch.getOrderStatus() != null) {
+			if(isFirstCondition) {
+				jpql += " where";
+				isFirstCondition = false;
+			} else {
+				jpql += " and";
+			}
+			jpql += " o.status = :status";
+		}
+
+		//회원 상태 검색
+		if(StringUtils.hasText((CharSequence) orderSearch.getMemberName())) {
+			if(isFirstCondition) {
+				jpql += " where";
+				isFirstCondition = false;
+			} else {
+				jpql += " and";
+			}
+			jpql += " m.name like :name";
+		}
+
+		TypedQuery<Order> query = entityManager.createQuery(jpql, Order.class)
+			.setMaxResults(1000);  //최대 1000건
+
+		if(orderSearch.getOrderStatus() != null) {
+			query = query.setParameter("status", orderSearch.getOrderStatus());
+		}
+		if(StringUtils.hasText((CharSequence) orderSearch.getMemberName())) {
+			query = query.setParameter("name", orderSearch.getMemberName());
+		}
+
+		return query.getResultList();
+	}
+```
+
+
+
