@@ -51,11 +51,13 @@ public class Order {
 		member.getOrders().add(this);
 	}
 
-	public static void main(String[] args) {
-		Member member= new Member();
-		Order order = new Order();
+	public void addOrderItem(OrderItem orderItem) {
+		orderItems.add(orderItem);
+		orderItem.setOrder(this);
+	}
 
-		member.getOrders().add(order);
-		order.setMember(member);
+	public void addDelivery(Delivery delivery) {
+		this.delivery = delivery;
+		delivery.setOrder(this);
 	}
 }
