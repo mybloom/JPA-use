@@ -34,7 +34,7 @@ public class OrderRepository {
 	 * @param orderSearch
 	 * @return
 	 */
-	public List<Order> findAll(OrderSearch orderSearch) {
+	public List<Order> findAllString(OrderSearch orderSearch) {
 		String jpql = "select o from Order o join o.member m";
 		boolean isFirstCondition = true;
 
@@ -107,6 +107,5 @@ public class OrderRepository {
 			.setMaxResults(1000);
 		return query.getResultList();
 	}
-
 
 }
