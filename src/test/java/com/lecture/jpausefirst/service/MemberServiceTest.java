@@ -1,9 +1,11 @@
 package com.lecture.jpausefirst.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.lecture.jpausefirst.domain.Member;
 import com.lecture.jpausefirst.repository.MemberRepository;
 import javax.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,16 +33,23 @@ class MemberServiceTest {
 		entityManager.flush();
 
 		//then
-		Assertions.assertThat(member).isEqualTo(memberRepository.findOne(savedId));
+		assertThat(member).isEqualTo(memberRepository.findOne(savedId));
 	}
 
 	@Test
 	void 중복_회원_예외() {
 		//given
+		Member member1 = new Member();
+		member1.setName("kim");
+
+		Member member2 = new Member();
+		member2.setName("kim");
 
 		//when
+		memberService.join(member1);
 
 		//then
-
+		assertThatThrownBy(() -> memberService.join(member2))
+			.isInstanceOf(IllegalStateException.class);
 	}
 }

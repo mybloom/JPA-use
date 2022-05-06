@@ -132,3 +132,17 @@ private MemberRepository memberRepository;
 		Assertions.assertThat(member).isEqualTo(memberRepository.findOne(savedId));
 	}
 ```
+
+- 실무에서는, was 띄울 때  메모리 db에 테스트 하는 방법을 사용한다.
+
+> 격리된 환경에서 테스트
+- 테스트를 완전히 격리된 환경에서 테스트하는 방법 : 메모리 db 사용
+- 스프링 부트에서는 바로 사용가능 하다.  
+- main, test로 폴더가 나뉜다. 
+- **test가 돌 때는 test폴더가 우선권을 가진다. 그래서 test용 yml파일을 가지면 db셋팅을 memory로 바꾼다.**
+- h2를 메모리 모드로 띄우게 설정한다.
+  - h2 홈페이지 참고 
+  - jdbc:h2:mem:<databaseName>
+- 결론 : test용 application.yml파일을 test/resources 디렉토리에 생성 후 db url을 메모리 모드로 띄우게 설정한다.
+  - 그런데 스프링 부트는 기본적으로 메모리 db 사용해서 테스트 수행하므로 yml에 db 접속 정보가 없어도 테스트가 실행된다.
+  - url jdbc:h2:mem:0e2ce3cf-8edd-462c-a435-59dbb5231ead
