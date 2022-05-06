@@ -100,4 +100,32 @@ private MemberRepository memberRepository;
   - 테스트케이스 작성할 때, new로 객체 생성 시점에 IDE에서 필요한 의존성주입을 알 수 있다.
   - final로 할 경우 컴파일 시점에 생성자 의존성주입을 체크해줘서 잊어버리지 않을 수 있다.
 
+### 회원 기능 테스트
 
+> 테스트 시나리오
+- 회원가입 성공
+- 회원가입시 같은 이름 있으면 예외 발생
+
+> 테스트 목적
+- JPA가 실제 DB까지 실행되는 것을 보는 것이 목적이여서 스프링이랑 integration해서 테스트 예정
+
+> 테스트 코드 설명
+
+- 실행시 insert 쿼리가 없다.
+- DB마다 전략이 다르긴한데, 보통은 persist() 할 때 insert문이 실행되지 않는다.
+- 왜냐면 commit될 때 flush되면서 db에 저장이 된다.
+- 그런데 스프링에서 @Transaction 은 기본 rollback을 한다. 그래서 insert 쿼리가 발생하지 않았다.
+```java
+    @Test
+	void 회원가입() {
+		//given
+		Member member = new Member();
+		member.setName("kkk");
+
+		//when
+		Long savedId = memberService.join(member);
+
+		//then
+		Assertions.assertThat(member).isEqualTo(memberRepository.findOne(savedId));
+	}
+```
