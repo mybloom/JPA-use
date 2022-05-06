@@ -163,3 +163,5 @@ private MemberRepository memberRepository;
 - 주문 내역 조회
 - 주문 취소
 
+> 질문
+- [] 생성 메서드는 왜 static으로 만드는걸까?
