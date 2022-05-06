@@ -68,3 +68,36 @@
 - **개발순서**
   - 웹 환경을 제외한 계층을 먼저 개발 : service, repository를 먼저 개발 후 test로 검증
   - 웹, Controller는 그 다음 개발
+
+---
+
+## chap5 회원 도메인 개발
+
+- 영속성 컨텍스트에 넣는 시점에 pk가 생성되기 된다. 그러므로 getId()가 항상 있는 것이 보장된다.
+```java
+public Long join(Member member) {
+  //중복회원 검증
+  validateDuplicateMember(member);
+  memberRepository.save(member);
+  //영속성 컨텍스트에 넣는 시점에 pk가 생성되기 때문에 getId()가 항상 있는 것이 보장된다.
+  return member.getId(); 
+}
+```
+- @Transactional 
+  - jpa모든 로직들은 transaction 안에서 실행되어야 한다. 그래야 lazy로딩 등이 다 된다.
+  - 조회시 @Transactional(readOnly = true) 로 해주면 조회시 최적화를 해준다.
+
+> 의존성 주입
+- 필드 의존성주입 :  테스트 작성시 mock객체 주입시 해당 객체를 바꿀 수 없다.
+```java
+@Autowired
+private MemberRepository memberRepository;
+```
+- setter 의존성 주입
+  - 애플리케이션 실행하면 의존성 주입을 바꿀일이 없다.
+  - 그래서 추천하지 않는 방법이다.
+- 생성자 의존성 주입
+  - 테스트케이스 작성할 때, new로 객체 생성 시점에 IDE에서 필요한 의존성주입을 알 수 있다.
+  - final로 할 경우 컴파일 시점에 생성자 의존성주입을 체크해줘서 잊어버리지 않을 수 있다.
+
+

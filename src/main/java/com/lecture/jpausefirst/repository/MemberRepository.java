@@ -12,6 +12,10 @@ public class MemberRepository {
 	@PersistenceContext //스프링이 JPA의 엔티티매니저를 만들어서 주입해준다.
 	private EntityManager entityManager;
 
+	public MemberRepository(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
 	public void save(Member member) {
 		entityManager.persist(member);
 	}
@@ -25,7 +29,7 @@ public class MemberRepository {
 			.getResultList();
 	}
 
-	public List<Member> findByNAme(String name) {
+	public List<Member> findByName(String name) {
 		return entityManager.createQuery("select m from Member m where m.name = : name", Member.class)
 			.setParameter("name", name)
 			.getResultList();
