@@ -42,4 +42,12 @@
 ### 엔티티 설계시 주의점
 
 - 즉시로딩(EAGER)은 어떤 SQL이 실행될지 예측이 어렵다. 그리고 JPQL을 실행할 때 연관관계가 즉시로딩으로 되어 있으면 쿼리가 N+1개 수행된다. 
-- 
+- 컬렉션은 필드에 추가한다. `List<Order> orders = new ArrayList<>();`
+  - NPE 체크하지 않아도 되고,
+  - 하이버네이트가 엔티티를 영속화할 때 컬렉션을 한번 감싸서 하이버네이트가 제공하는 내장 컬렉션으로 변경한다. 
+  - 하이버네이트가 원하는 매커니즘으로 동작하게 하기 위해 컬렉션을 가급적 변경하지 않는다. 
+
+> 영속성 전이 cascade
+- order 저장하면 orderItems도 같이 persist된다.
+- @OneToMany(mappedBy = "order", cascade = CascadeType.ALL) 
+- []  cascade는 주인에게 해야 할까? 거울에게 해야할까?

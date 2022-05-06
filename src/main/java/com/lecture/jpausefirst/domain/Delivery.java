@@ -2,6 +2,7 @@ package com.lecture.jpausefirst.domain;
 
 import static javax.persistence.FetchType.LAZY;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -25,7 +26,7 @@ public class Delivery {
 	@Column(name = "delivery_id")
 	private Long id;
 
-	@OneToOne(mappedBy = "delivery", fetch = LAZY) //1:1의 거울로 설정
+	@OneToOne(mappedBy = "delivery", fetch = LAZY, cascade = CascadeType.ALL) //1:1의 거울로 설정
 	private Order order;
 
 	@Embedded
