@@ -165,3 +165,22 @@ private MemberRepository memberRepository;
 
 > 질문
 - [] 생성 메서드는 왜 static으로 만드는걸까?
+
+> 주문 생성
+- cascade = CascadeType.ALL을 oderItem과 delivery에서 해줬기 때문에 order만 save해도 연관관계 모두 저장된다.
+```java
+orderRepository.save(order);
+```
+> cascade의 범위 고민
+- 보통 order같은 경우에 order가 delivery와 orderItem을 관리
+- 참조하는 주인이 `private Owner`일 경우에만 사용 : `order만 참조`해서 사용한다
+- 감이 오지 않을 때는 cascade를 쓰지 않다가, 나중에 refactoring하는 것도 좋다.
+
+> 주문 취소
+- Dirty Checking : 변경 내역 감지
+  - 우리는 상태를 변경하거나, 재고수량을 더해준다. 이렇게 객체의 데이터만 변경하면    
+    JPA가 변경된 내용을 찾아서 db에 update 쿼리를 날린다.
+
+
+
+

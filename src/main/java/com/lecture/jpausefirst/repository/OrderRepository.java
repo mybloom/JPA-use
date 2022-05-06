@@ -15,8 +15,8 @@ public class OrderRepository {
 		entityManager.persist(order);
 	}
 
-	public void findOne(Long id) {
-		entityManager.find(Order.class, id);
+	public Order findOne(Long id) {
+		return entityManager.find(Order.class, id);
 	}
 
 	/*public List<Order> findAll(OrderSearch orderSearch) {

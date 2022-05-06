@@ -38,7 +38,7 @@ public class Order {
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL) //order 저장하면 orderItems도 같이 persist된다.
 	private List<OrderItem> orderItems = new ArrayList<>();
 
-	@OneToOne(fetch = LAZY)
+	@OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "delivery_id") //1:1의 주인으로 설정
 	private Delivery delivery;
 

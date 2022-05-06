@@ -9,12 +9,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
 
 	@Id
@@ -57,7 +60,8 @@ public class OrderItem {
 
 	//==비지니스 로직==//
 	/**
-	 * 주문상품 취소
+	 * 주문상품 취소 <br>
+	 * 재고수량 더해준다
 	 */
 	public void cancel() {
 		getItem().addStock(count);
