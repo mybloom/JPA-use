@@ -1,11 +1,14 @@
 package com.lecture.jpausefirst.domain;
 
+import static javax.persistence.FetchType.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -23,18 +26,21 @@ public class Order {
 	@Column(name = "order_id")
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
 
 	@OneToMany(mappedBy = "order")
 	private List<OrderItem> orderItems = new ArrayList<>();
 
-	@OneToOne
+	@OneToOne(fetch = LAZY)
 	@JoinColumn(name = "delivery_id") //1:1의 주인으로 설정
 	private Delivery delivery;
 
 	private LocalDateTime orderDate;
 
 	private OrderStatus orderStatus;
+
+	public Order() {
+	}
 }

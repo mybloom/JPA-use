@@ -1,10 +1,13 @@
 package com.lecture.jpausefirst.domain;
 
+import static javax.persistence.FetchType.LAZY;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -22,7 +25,7 @@ public class Delivery {
 	@Column(name = "delivery_id")
 	private Long id;
 
-	@OneToOne(mappedBy = "delivery") //1:1의 거울로 설정
+	@OneToOne(mappedBy = "delivery", fetch = LAZY) //1:1의 거울로 설정
 	private Order order;
 
 	@Embedded

@@ -1,10 +1,13 @@
 package com.lecture.jpausefirst.domain;
 
+import static javax.persistence.FetchType.*;
+
 import com.lecture.jpausefirst.domain.item.Item;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -34,7 +37,7 @@ public class Category {
 	private List<Item> items = new ArrayList<>();
 
 	//셀프 양방향 연관관계 시작
-	@ManyToOne
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "parent_id")
 	private Category parent;
 
