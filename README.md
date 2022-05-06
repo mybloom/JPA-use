@@ -115,8 +115,11 @@ private MemberRepository memberRepository;
 - DB마다 전략이 다르긴한데, 보통은 persist() 할 때 insert문이 실행되지 않는다.
 - 왜냐면 commit될 때 flush되면서 db에 저장이 된다.
 - 그런데 스프링에서 @Transaction 은 기본 rollback을 한다. 그래서 insert 쿼리가 발생하지 않았다.
+- 다른 방법: DB에 쿼리 발생하지만 테스트 이후에 테스트 데이터 ROLLBACK 하도록 처리 
+  - entityManager를 주입받아서 em.flush()를 수행한다.
 ```java
     @Test
+    @Transactional(rollback = false)
 	void 회원가입() {
 		//given
 		Member member = new Member();

@@ -2,12 +2,12 @@ package com.lecture.jpausefirst.service;
 
 import com.lecture.jpausefirst.domain.Member;
 import com.lecture.jpausefirst.repository.MemberRepository;
+import javax.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,9 +18,9 @@ class MemberServiceTest {
 
 	@Autowired MemberService memberService;
 	@Autowired MemberRepository memberRepository;
+	@Autowired EntityManager entityManager;
 
 	@Test
-	@Rollback(value = false)
 	void 회원가입() {
 		//given
 		Member member = new Member();
@@ -28,6 +28,7 @@ class MemberServiceTest {
 
 		//when
 		Long savedId = memberService.join(member);
+		entityManager.flush();
 
 		//then
 		Assertions.assertThat(member).isEqualTo(memberRepository.findOne(savedId));
