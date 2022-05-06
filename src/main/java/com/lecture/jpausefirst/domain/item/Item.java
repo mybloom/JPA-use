@@ -14,11 +14,13 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) //상속관계 테이블 전략 선택
 @DiscriminatorColumn
 @Getter
+@Setter
 public abstract class Item {
 
 	@Id
