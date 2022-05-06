@@ -51,3 +51,7 @@
 - order 저장하면 orderItems도 같이 persist된다.
 - @OneToMany(mappedBy = "order", cascade = CascadeType.ALL) 
 - []  cascade는 주인에게 해야 할까? 거울에게 해야할까?
+
+
+> 연관관계 편의 메서드
+- 

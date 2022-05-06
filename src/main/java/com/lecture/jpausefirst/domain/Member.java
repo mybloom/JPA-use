@@ -29,4 +29,5 @@ public class Member {
 
 	@OneToMany(mappedBy = "member") //`order 객체에 있는 member 필드에 의해 매핑된 것
 	private List<Order> orders = new ArrayList<>();
+
 }

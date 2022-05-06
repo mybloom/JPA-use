@@ -17,9 +17,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "orders")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
 	@Id
@@ -42,6 +45,17 @@ public class Order {
 
 	private OrderStatus orderStatus;
 
-	public Order() {
+	//연관관계 편의 메서드
+	public void setMember(Member member) {
+		this.member = member;
+		member.getOrders().add(this);
+	}
+
+	public static void main(String[] args) {
+		Member member= new Member();
+		Order order = new Order();
+
+		member.getOrders().add(order);
+		order.setMember(member);
 	}
 }
