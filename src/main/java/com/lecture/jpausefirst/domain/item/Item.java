@@ -1,4 +1,4 @@
-package com.lecture.jpausefirst.domain;
+package com.lecture.jpausefirst.domain.item;
 
 
 import java.util.ArrayList;

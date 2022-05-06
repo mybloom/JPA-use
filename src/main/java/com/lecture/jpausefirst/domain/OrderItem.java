@@ -1,5 +1,6 @@
 package com.lecture.jpausefirst.domain;
 
+import com.lecture.jpausefirst.domain.item.Item;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import org.aspectj.weaver.ast.Or;
 
 @Entity
 @Getter
