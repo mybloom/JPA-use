@@ -146,3 +146,11 @@ private MemberRepository memberRepository;
 - 결론 : test용 application.yml파일을 test/resources 디렉토리에 생성 후 db url을 메모리 모드로 띄우게 설정한다.
   - 그런데 스프링 부트는 기본적으로 메모리 db 사용해서 테스트 수행하므로 yml에 db 접속 정보가 없어도 테스트가 실행된다.
   - url jdbc:h2:mem:0e2ce3cf-8edd-462c-a435-59dbb5231ead
+
+---
+
+## chap6 상품 도메인 개발
+
+- `데이터를 가지고 있는 쪽`에서 비지니스 메서드가 있는 것이 응집력이 좋다.
+- Item 클래스에 stockQuantity 속성을 가지고 있으므로 , 재고 늘리고/줄이는 비지니스 메서드를 Item 클래스에 생성한다.
+- 
