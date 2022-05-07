@@ -428,3 +428,35 @@ public String updateItem(@ModelAttribute BookForm form) {
 > merge
 - 실무에서 쓸일이 거의 없다.
 
+### [중요] 변경감지와 병합
+
+> 준영속 엔티티
+- 엔티티매니저가 더이상 관리하지 않는 엔티티
+- db에 갔다온 데이터, JPA가 식별할 수 있는 id가 있는 개체 : 준영속 상태
+- 임의로 만든 엔티티도 기존 식별자로 가지고 있으면 준영속 엔티티로 볼 수 있다.
+
+- 영속상태는 변경 감지가 되지만 , 준영속 상태는 JPA가 관리하지 않기 때문에 변경감지가 되지 않는다.
+- 그러면 준영속 상태의 엔티티는 어떻게 데이터를 수정할 수 있을까?
+
+> 준영속 엔티티 수정 방법 2가지
+1. 변경 감지 기능
+2. merge 사용
+
+> 변경 감지 기능
+- repository에서 find로 찾아온 영속 상태의 엔티티 findItem은 @Transactional에 의해 commit이 되면 , JPA는 flush를 날린다.
+- flush 할 때 변경된 것을 update로 DB에 적용한다.
+```java
+@Transactional
+	public void updateItem(Long itemId, Book param) {
+		Item findItem = itemRepository.findOne(itemId); //영속상태
+		findItem.setPrice(param.getPrice());
+		findItem.setName(param.getName());
+		findItem.setStockQuantity(param.getStockQuantity());
+
+//		itemRepository.save(findItem);// 호출할 필요없다. 왜냐면 findItem이 영속상태이기 때문에
+}
+```
+
+> 병합 merge
+- 준영속 상태의 엔티티를 영속 상태의 엔티티로 변경하는데 사용
+- 
