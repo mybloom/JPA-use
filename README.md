@@ -330,5 +330,29 @@ Join<Object, Object> member = order.join("member", JoinType.INNER);
 
 3. QueryDSL 사용
 
+---
+
+## chap8 웹 계층 개발
+
+### 홈화면과 레이아웃
+
+- header.html에 css 파일 CDN에서 가져오는 것으로 수정
+- 점보트론은 css 디렉토리에 따로 넣어주었음.
+`<link href="/css/jumbotron-narrow.css" rel="stylesheet">-->`
+
+```html
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+```
+
 
 
