@@ -1,6 +1,5 @@
 package com.lecture.jpausefirst.service;
 
-import com.lecture.jpausefirst.domain.item.Book;
 import com.lecture.jpausefirst.domain.item.Item;
 import com.lecture.jpausefirst.repository.ItemRepository;
 import java.util.List;
@@ -26,13 +25,11 @@ public class ItemService {
 	 * @param id
 	 */
 	@Transactional
-	public Item updateItem(Long itemId, Book param) {
+	public void updateItem(Long itemId, String name, int price, int stockQuantity) {
 		Item findItem = itemRepository.findOne(itemId); //영속상태
-		findItem.setPrice(param.getPrice());
-		findItem.setName(param.getName());
-		findItem.setStockQuantity(param.getStockQuantity());
-
-		return findItem;
+		findItem.setPrice(price);
+		findItem.setName(name);
+		findItem.setStockQuantity(stockQuantity);
 	}
 
 	public List<Item> findItems() {

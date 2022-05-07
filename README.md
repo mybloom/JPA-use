@@ -484,6 +484,19 @@ public String updateItem(@ModelAttribute BookForm form) {
   - 기존 속성도 모두 set해줘야 한다.
 - 그래서 실무에서는 조금 귀찮더라도 업데이트 할 속성만 변경하도록 `변경 감지`를 사용해야 한다.
   - 엔티티에 변경 메서드를 만들어주는 것이 좋다. setter대신 
-  
+
+> controller에서 엔티티를 만들지 말아라
+- controller에서 form 객체를 엔티티 객체로 변경하지 말아라
+- 어설프게 엔티티를 파라미터로 사용하지 않고, 트랜잭션이 있는 서비스 계층에 식별자와 변경 데이터를 명확하게 전달.
+  - 코드가 정확하게 매핑되므로 유지보수에 더 좋다.
+  - 만약 업데이트할 속성이 많다면, 서비스계층에서 받을 UpdateItemDto를 하나 만든다.
+```java
+    @PostMapping("items/{itemId}/edit")
+	public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") BookForm form) { //ModelAttribute : form에서 넘겨준 form을 객체로 사용할 수 있다.
+		itemService.updateItem(itemId, form.getName(), form.getPrice(), form.getStockQuantity());
+		return "redirect:/items";
+	}
+```
+
 
 
