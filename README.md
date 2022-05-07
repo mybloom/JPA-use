@@ -459,4 +459,31 @@ public String updateItem(@ModelAttribute BookForm form) {
 
 > 병합 merge
 - 준영속 상태의 엔티티를 영속 상태의 엔티티로 변경하는데 사용
-- 
+- 동작방식
+  - merge() 실행
+  - 파라미터로 넘어온 준영속 엔티티의 식별자 값으로 1차 캐시에서 엔티티 조회
+  - 1차 캐시에 엔티티 없으면 db에서 엔티티 조회 후, 1차 캐시에 저장
+  - **조회한 영속 엔티티에 파라미터(준영속 엔티티)의 값을 넣는다.**
+  - 영속 상태인 엔티티를 반환한다. 
+- 아래 쿼리랑 동일한 방식으로 동작한다고 이해하면 된다.
+```java
+	@Transactional
+	public Item updateItem(Long itemId, Book param) {
+		Item findItem = itemRepository.findOne(itemId); //영속상태
+        //setter대신 내부적으로 셋팅
+		findItem.setPrice(param.getPrice());
+		findItem.setName(param.getName());
+		findItem.setStockQuantity(param.getStockQuantity());
+
+		return findItem;
+	}
+```
+> 병합 주의사항
+- 변경 감지 기능은 원하는 속성만 선택해서 변경
+- 병합은 모든 속성 변경 
+  - 기존 속성도 모두 set해줘야 한다.
+- 그래서 실무에서는 조금 귀찮더라도 업데이트 할 속성만 변경하도록 `변경 감지`를 사용해야 한다.
+  - 엔티티에 변경 메서드를 만들어주는 것이 좋다. setter대신 
+  
+
+
