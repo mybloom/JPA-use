@@ -408,3 +408,23 @@ if(result.hasErrors()) {
 
 - [] 상품등록 시 수량이나 가격에 문자 입력하면 validation 어디서 해주는 거지?
 
+### [중요] 상품 수정
+
+- JPA 수정 2가지 방법 :  변경감지, 병합(merge)
+
+> 코드 설명
+- ModelAttribute 사용이유
+  - <form th:object="${form}" method="post"> 에서 form을 스프링에서 객체로 사용할 수 있다.
+```java
+public String updateItem(@ModelAttribute BookForm form) {
+```
+
+> itemId를 조심해야 한다.
+- 넘어올 때 itemId가 조작되지 않도록 해야 한다.
+- 보안상 취약점이 발생할 수 있다.
+  - **사용자에 대해 itemId에 권한이 있는지 체크하는 로직**이 서버에 있어야 한다. (서비스 계층에서나 등등)
+  - 업데이트할 객체 자체를 세션에 담아두고 풀어내는 방법도 있고 : 그런데 요즘 세션 객체를 잘안쓴다.
+
+> merge
+- 실무에서 쓸일이 거의 없다.
+
