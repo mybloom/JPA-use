@@ -390,3 +390,18 @@ if(result.hasErrors()) {
 }
 ```
 
+### 회원 목록 조회
+
+- [tip] 인라인 단축키 사용 : ctrl + alt + n
+  - List<Member> members = memberService.findMembers();
+    model.addAttribute("members", members);
+- ? : null 이면 데이터 표현 안하는 것 
+  ```html
+  <td th:text="${member.address?.city}"></td>
+  ```
+
+> 응답 객체 
+- API를 만들 때는 절대 엔티티를 외부로 넘기면 안된다.
+- 엔티티에 속성추가로 로직이 추가되면 API 스펙이 변경되게 된다.
+
+
