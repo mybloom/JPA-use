@@ -354,5 +354,39 @@ Join<Object, Object> member = order.join("member", JoinType.INNER);
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 ```
 
+### 회원 등록 만들기 
+- 컨트롤러가 화면 이동할 때 MemberForm() 빈 객체를 가지고 가는데 , 그 이유는 validation이라는 것을 해주기 때문에 가져간다.
+```java
+@GetMapping("/members/new")
+public String createForm(Model model) {
+  model.addAttribute("memberForm", new MemberForm());
+  return "members/createMemberForm";
+}
+```
+- `th:field="*{name}"` *표시는 object 참고한다. 여기에서는 memberForm의 프로퍼티에 접근한다. 
+```html
+<input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요"
+             th:class="${#fields.hasErrors('name')}? 'form-control fieldError' : 'form-control'">
+```
 
+- @Valid : MemberForm 의 valid 관련 애노테이션을 적용할 수 있다.
+- [tip] 관련 애노테이션은 @NotEmpty 클릭 후 Project 옆에 select opend file(Alt+f1) 누르면 관련 패키지 내용을 전부 볼 수 있다.
+```java
+@PostMapping("/members/new")
+	public String create(@Valid MemberForm memberForm) {
+	}
+```
+
+- BindingResult가 없을 때는 validation 오류 발생시 controller가 끝나게 되는데,     
+ BindingResult는 오류가 있으면 BindingResult에 담겨서 controller의 나머지 부분이 실행되게 된다.
+```java
+public String create(@Valid MemberForm memberForm, BindingResult result) {
+```
+
+```java
+if(result.hasErrors()) {
+  //스프링이 BindingResult를 화면까지 끌고 가서 나타내줄 수 있다.
+  return "members/createMemberForm";
+}
+```
 

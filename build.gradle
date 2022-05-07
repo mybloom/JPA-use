@@ -35,6 +35,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
 
+    //validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
     //devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
