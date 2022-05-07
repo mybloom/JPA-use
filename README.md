@@ -504,7 +504,22 @@ public String updateItem(@ModelAttribute BookForm form) {
   - 컨트롤러에서는 식별자 정도만 활용하고
   - 서비스에서 비지니스 로직을 다루기 위해 엔티티 조회도 서비스의 트랜잭션안에서 이뤄지게 한다.
   - 그래서 더티체킹도 서비스에서 이뤄지게 한다.
-  - 
+
+### 상품 주문 검색
+
+- 검색 html에서 form에 action이 없는데 되었다. 기본 get으로 동작하고, form안의 요소들이 쿼리파라미터로 동작한다.
+- `http://localhost:8080/orders?memberName=&orderStatus=ORDER`
+- [] 신기했던 것은 "/orders" controller는 modelAttribute로 `orderSearch` 객체를 받는데, 
+요청 url을 보면 쿼리 파라미터인데 자동으로 바인딩 되는 것이 신기했다. 
+```java
+	@GetMapping("/orders")
+	public String orderList(@ModelAttribute("orderSearch") OrderSearch orderSearch, Model model) {
+		List<Order> orders = orderService.findOrders(orderSearch); //service에서 단순 위임이면 controller에서 repository 직접 접근한다.
+		model.addAttribute("orders", orders);
+
+		return "order/orderList";
+	}
+```
 
 
 

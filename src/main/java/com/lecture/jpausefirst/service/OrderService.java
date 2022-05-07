@@ -8,6 +8,8 @@ import com.lecture.jpausefirst.domain.item.Item;
 import com.lecture.jpausefirst.repository.ItemRepository;
 import com.lecture.jpausefirst.repository.MemberRepository;
 import com.lecture.jpausefirst.repository.OrderRepository;
+import com.lecture.jpausefirst.repository.OrderSearch;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,8 +71,8 @@ public class OrderService {
 	 * @param orderSearch
 	 * @return
 	 */
-//	public List<Order> findOrders(OrderSearch orderSearch) {
-//		return orderRepository.finAll(orderSearch);
-//	}
+	public List<Order> findOrders(OrderSearch orderSearch) {
+		return orderRepository.findAllString(orderSearch);
+	}
 
 }

@@ -18,13 +18,13 @@ public class ItemController {
 
 	private final ItemService itemService;
 
-	@GetMapping("items/new")
+	@GetMapping("/items/new")
 	private String createForm(Model model) {
 		model.addAttribute("form", new BookForm());
-		return "/items/createItemForm";
+		return "items/createItemForm";
 	}
 
-	@PostMapping("items/new")
+	@PostMapping("/items/new")
 	public String create(BookForm form) {
 		Book book = new Book();
 		//setter를 없애고 book.createBook() 의 메서드 호출하는 것으로 생성하는 것이 더 좋은 설계
@@ -39,14 +39,14 @@ public class ItemController {
 		return "redirect:/";
 	}
 
-	@GetMapping("items")
+	@GetMapping("/items")
 	public String list(Model model) {
 		List<Item> items = itemService.findItems();
 		model.addAttribute("items", items);
-		return "/items/itemList";
+		return "items/itemList";
 	}
 
-	@GetMapping("items/{itemId}/edit")
+	@GetMapping("/items/{itemId}/edit")
 	private String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
 		Book item = (Book) itemService.findOne(itemId);
 		BookForm form = new BookForm();
@@ -59,10 +59,10 @@ public class ItemController {
 		form.setIsbn(item.getIsbn());
 
 		model.addAttribute("form", form);
-		return "/items/updateItemForm";
+		return "items/updateItemForm";
 	}
 
-	@PostMapping("items/{itemId}/edit")
+	@PostMapping("/items/{itemId}/edit")
 	public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") BookForm form) { //ModelAttribute : form에서 넘겨준 form을 객체로 사용할 수 있다.
 		itemService.updateItem(itemId, form.getName(), form.getPrice(), form.getStockQuantity());
 		return "redirect:/items";
